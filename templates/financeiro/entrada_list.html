@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Entradas - SPASB{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-arrow-down-circle text-success"></i> Entradas</h2>
+    <a href="/financeiro/entrada/cadastrar/" class="btn btn-glass" style="background: linear-gradient(135deg, #00d9a5, #00b894);">
+        <i class="bi bi-plus-circle me-2"></i>Nova Entrada
+    </a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="glass p-3 text-center">
+            <small class="text-white-50">Total</small>
+            <h4 class="text-success mb-0">R$ {{ total }}</h4>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="glass p-3 text-center">
+            <small class="text-white-50">ONG</small>
+            <h4 class="text-warning mb-0">R$ {{ total_ong }}</h4>
+        </div>
+    </div>
+</div>
+
+<div class="glass p-4">
+    {% if entradas %}
+    <div class="table-responsive">
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>Data</th><th>Descrição</th><th>Tipo</th>
+                    <th class="text-end">Valor</th><th class="text-end">ONG</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in entradas %}
+                <tr>
+                    <td>{{ e.data|date:"d/m/Y" }}</td>
+                    <td>{{ e.descricao }}</td>
+                    <td><span class="badge bg-info">{{ e.get_tipo_display }}</span></td>
+                    <td class="text-end text-success">R$ {{ e.valor_total }}</td>
+                    <td class="text-end">R$ {{ e.valor_ong }}</td>
+                    <td class="text-center">
+                        <a href="/financeiro/entrada/editar/{{ e.pk }}/" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="/financeiro/entrada/excluir/{{ e.pk }}/" class="btn btn-sm btn-outline-danger btn-excluir">
+                             <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="bi bi-inbox text-white-50" style="font-size: 4rem;"></i>
+        <p class="text-white-50 mt-3">Nenhuma entrada</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

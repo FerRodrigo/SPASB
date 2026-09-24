@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - SPASB{% endblock %}
+{% block extra_css %}
+<style>
+    .stat-icon { width: 60px; height: 60px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+    .chart-container { position: relative; height: 250px; }
+</style>
+{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-speedometer2 me-2"></i>Dashboard</h2>
+    <span class="glass px-3 py-2">{{ mes }}/{{ ano }}</span>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="glass p-3">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon stat-entrada me-3"><i class="bi bi-arrow-down-circle"></i></div>
+                <div><small class="text-white-50">Entradas</small><h4 class="text-success mb-0">R$ {{ total_entradas }}</h4></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="glass p-3">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon stat-ong me-3"><i class="bi bi-house-heart"></i></div>
+                <div><small class="text-white-50">ONG</small><h4 class="text-warning mb-0">R$ {{ total_ong }}</h4></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="glass p-3">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon stat-despesa me-3"><i class="bi bi-arrow-up-circle"></i></div>
+                <div><small class="text-white-50">Despesas</small><h4 class="text-danger mb-0">R$ {{ total_despesas }}</h4></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="glass p-3 {% if saldo >= 0 %}border-success{% else %}border-danger{% endif %}" style="border-left: 3px solid {% if saldo >= 0 %}#00d9a5{% else %}#e94560{% endif %};">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon stat-saldo me-3"><i class="bi bi-wallet2"></i></div>
+                <div><small class="text-white-50">Saldo</small><h4 class="{% if saldo >= 0 %}text-success{% else %}text-danger{% endif %} mb-0">R$ {{ saldo }}</h4></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="glass p-4">
+            <h5 class="mb-3"><i class="bi bi-arrow-down-circle text-success me-2"></i>Últimas Entradas</h5>
+            <div class="table-responsive">
+                <table class="table table-dark table-sm">
+                    <tbody>
+                        {% for e in ultimas_entradas %}
+                        <tr>
+                            <td>{{ e.data|date:"d/m" }}</td>
+                            <td>{{ e.descricao }}</td>
+                            <td class="text-end text-success">R$ {{ e.valor_total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="glass p-4">
+            <h5 class="mb-3"><i class="bi bi-arrow-up-circle text-danger me-2"></i>Últimas Despesas</h5>
+            <div class="table-responsive">
+                <table class="table table-dark table-sm">
+                    <tbody>
+                        {% for d in ultimas_despesas %}
+                        <tr>
+                            <td>{{ d.data|date:"d/m" }}</td>
+                            <td>{{ d.descricao }}</td>
+                            <td class="text-end text-danger">R$ {{ d.valor }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

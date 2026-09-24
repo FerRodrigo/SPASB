@@ -1,0 +1,53 @@
+{% extends "admin/change_list.html" %}
+
+{% block content_title %}
+    <h1>Resumo Financeiro do Mês Atual</h1>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2 col-6">
+                    <div class="text-center">
+                        <h6>Total Entradas</h6>
+                        <h4 class="text-success">R$ {{ resumo_mes.entradas }}</h4>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6">
+                    <div class="text-center">
+                        <h6>Total ONG</h6>
+                        <h4 class="text-warning">R$ {{ resumo_mes.ong }}</h4>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6">
+                    <div class="text-center">
+                        <h6>Total Veterinária</h6>
+                        <h4 class="text-info">R$ {{ resumo_mes.veterinaria }}</h4>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6">
+                    <div class="text-center">
+                        <h6>Total Despesas</h6>
+                        <h4 class="text-danger">R$ {{ resumo_mes.despesas }}</h4>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center {% if resumo_mes.saldo >= 0 %}text-success{% else %}text-danger{% endif %}">
+                        <h6>Saldo do Mês</h6>
+                        <h3>R$ {{ resumo_mes.saldo }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ block.super }}
+{% endblock %}
+
+{% block object-tools %}
+    <div class="mb-3">
+        <a href="/financeiro/relatorio/" target="_blank" class="btn btn-success">
+            <i class="bi bi-bar-chart"></i> Relatório Completo
+        </a>
+    </div>
+    {{ block.super }}
+{% endblock %}

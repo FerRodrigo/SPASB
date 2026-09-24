@@ -1,0 +1,21 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+    {{ block.super }}
+
+    <div class="module">
+        <h2>Relatórios SPASB</h2>
+        <div class="card">
+            <div class="card-body">
+                <p>
+                    <a href="/financeiro/relatorio/" target="_blank" class="btn btn-primary">
+                        <i class="bi bi-bar-chart"></i> Abrir Relatório Mensal SPASB
+                    </a>
+                </p>
+                <p class="text-muted">
+                    Acesse relatórios detalhados de todas as movimentações financeiras
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block title %}Relatório Mensal - SPASB{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-bar-chart me-2"></i>Relatório {{ mes }}/{{ ano }}</h2>
+    <div class="d-flex gap-2">
+        <a href="/dashboard/" class="btn btn-glass"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+    </div>
+</div>
+
+<form method="get" class="glass p-3 mb-4">
+    <div class="row g-3 align-items-end">
+        <div class="col-md-3">
+            <label class="form-label">Mês</label>
+            <select name="mes" class="form-control">
+                <option value="1" {% if mes == 1 %}selected{% endif %}>Janeiro</option>
+                <option value="2" {% if mes == 2 %}selected{% endif %}>Fevereiro</option>
+                <option value="3" {% if mes == 3 %}selected{% endif %}>Março</option>
+                <option value="4" {% if mes == 4 %}selected{% endif %}>Abril</option>
+                <option value="5" {% if mes == 5 %}selected{% endif %}>Maio</option>
+                <option value="6" {% if mes == 6 %}selected{% endif %}>Junho</option>
+                <option value="7" {% if mes == 7 %}selected{% endif %}>Julho</option>
+                <option value="8" {% if mes == 8 %}selected{% endif %}>Agosto</option>
+                <option value="9" {% if mes == 9 %}selected{% endif %}>Setembro</option>
+                <option value="10" {% if mes == 10 %}selected{% endif %}>Outubro</option>
+                <option value="11" {% if mes == 11 %}selected{% endif %}>Novembro</option>
+                <option value="12" {% if mes == 12 %}selected{% endif %}>Dezembro</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Ano</label>
+            <input type="text" name="ano" class="form-control" value="{{ ano }}" inputmode="numeric">
+        </div>
+        <div class="col-md-3">
+    <button type="submit" class="btn btn-glass" style="background: var(--secondary);">
+        <i class="bi bi-search me-2"></i>Buscar
+    </button>
+</div>
+
+<div class="col-md-3">
+    <a href="{% url 'financeiro:relatorio_pdf' %}?mes={{ mes }}&ano={{ ano }}"
+       class="btn btn-danger me-2">
+        <i class="bi bi-file-earmark-pdf me-2"></i>Gerar PDF
+    </a>
+
+    <a href="{% url 'financeiro:relatorio_excel' %}?mes={{ mes }}&ano={{ ano }}"
+       class="btn btn-success">
+        <i class="bi bi-file-earmark-excel me-2"></i>Gerar Excel
+    </a>
+</div>
+</div>
+</form>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="glass p-3 text-center">
+            <small class="text-white-50">Entradas</small>
+            <h4 class="text-success">R$ {{ total_entradas }}</h4>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="glass p-3 text-center">
+            <small class="text-white-50">ONG</small>
+            <h4 class="text-warning">R$ {{ total_ong }}</h4>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="glass p-3 text-center">
+            <small class="text-white-50">Despesas</small>
+            <h4 class="text-danger">R$ {{ total_despesas }}</h4>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="glass p-3 text-center {% if saldo >= 0 %}border-success{% else %}border-danger{% endif %}" style="border-left: 3px solid {% if saldo >= 0 %}#00d9a5{% else %}#e94560{% endif %};">
+            <small class="text-white-50">Saldo</small>
+            <h4 class="{% if saldo >= 0 %}text-success{% else %}text-danger{% endif %}">R$ {{ saldo }}</h4>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="glass p-4">
+            <h5 class="mb-3"><i class="bi bi-arrow-down-circle text-success me-2"></i>Entradas</h5>
+            {% if entradas %}
+            <div class="table-responsive">
+                <table class="table table-dark table-sm">
+                    <tbody>
+                        {% for e in entradas %}
+                        <tr>
+                            <td>{{ e.data|date:"d/m" }}</td>
+                            <td>{{ e.descricao }}</td>
+                            <td class="text-end text-success">R$ {{ e.valor_total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-white-50">Nenhuma entrada</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="glass p-4">
+            <h5 class="mb-3"><i class="bi bi-arrow-up-circle text-danger me-2"></i>Despesas</h5>
+            {% if despesas %}
+            <div class="table-responsive">
+                <table class="table table-dark table-sm">
+                    <tbody>
+                        {% for d in despesas %}
+                        <tr>
+                            <td>{{ d.data|date:"d/m" }}</td>
+                            <td>{{ d.descricao }}</td>
+                            <td class="text-end text-danger">R$ {{ d.valor }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-white-50">Nenhuma despesa</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

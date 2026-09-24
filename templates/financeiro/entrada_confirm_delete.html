@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Excluir Entrada{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="glass p-4">
+            <h3><i class="bi bi-exclamation-triangle text-danger me-2"></i>Confirmar Exclusão</h3>
+            <p class="mt-3">Excluir: <strong>{{ entrada.descricao }}</strong></p>
+            <p>Valor: R$ {{ entrada.valor_total }}</p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-2"></i>Sim, Excluir
+                    </button>
+                    <a href="/financeiro/entrada/" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
