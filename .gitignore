@@ -22,3 +22,6 @@ venv/
 
 # Arquivos temporários
 *.tmp
+
+# Arquivos estaticos gerados pelo Django
+staticfiles/
