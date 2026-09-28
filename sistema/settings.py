@@ -102,4 +102,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_AGE = 1209600  # 14 dias
 SESSION_SAVE_EVERY_REQUEST = True
 
-CSRF_TRUSTED_ORIGINS = ["https://*.ngrok-free.dev"]
+CSRF_TRUSTED_ORIGINS = os.environ.get(
+    'DJANGO_CSRF_TRUSTED_ORIGINS',
+    'https://*.ngrok-free.dev'
+).split(',')
